@@ -1,66 +1,108 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Bar } from 'react-chartjs-2';
+import Box from '@mui/material/Box';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import 'chart.js/auto';
+import './style.css'; 
+
+const api_url = 'https://population-service.vercel.app';
 
 const App = () => {
-  const [data, setData] = useState([]);
-  const [year, setYear] = useState('1950');
+  const [data, setData] = useState();
+  const [year, setYear] = useState(1950);
   const [loading, setLoading] = useState(true);
+  const [yearOptions, setYearOptions] = useState();
+  const [labels, setLabels] = useState();
+  const [populations, setPopulations] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         console.log('Fetching data for year:', year);
-        const response = await axios.get(`http://localhost:3001/api/population`);
-        const filteredData = response.data.filter(item =>{ 
-            if(item.year === year)
-               return item
-        }
-        )
+        const [populationResponse, yearOptionsResponse] = await Promise.all([
+          axios.get(`${api_url}/api/population?year=${year}`),
+          axios.get(`${api_url}/api/year-filters`),
+        ]);
+
+        const filteredData = populationResponse.data;
         setData(filteredData);
+        setYearOptions(await yearOptionsResponse.data.map(Number));
+
+        // Sort filteredData by population in descending order
+        filteredData.sort((a, b) => b.population - a.population);
+
+        const labelsAxis = await filteredData.map((item) => item.country);
+        const populationsAxis = await filteredData.map((item) => item.population);
+
+        setLabels(labelsAxis);
+        setPopulations(populationsAxis);
+
         console.log(filteredData);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching the data', error);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [year]); 
+  }, [year]);
 
   const handleYearChange = (e) => {
-    setYear(e.target.value); 
+    setYear(Number(e.target.value));
+  };  
+
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Population',
+        data: populations,
+        backgroundColor: '#f87cd3',
+      },
+    ],
   };
 
+  const options = {
+    indexAxis: 'y', // Display bars vertically
+    responsive: true,
+    scales: {
+      x: {
+          position: 'top',
+      }
+    },
+    plugins: {
+      legend: {
+        position: 'top',
+      },      
+    },
+  };
+
+
   return (
-    <div style={{ margin: '40px', width: '100%', height: 500 }}>
+    <div className="container">
       {loading ? (
-        <p>Loading...</p>
+        <div className="loading-spinner">
+          <CircularProgress />
+        </div>
       ) : (
         <>
-          <label>Select Year:</label>
-          <select value={year} onChange={handleYearChange}>
-            <option value="1950">1950</option>
-            <option value="1960">1960</option>
-            <option value="1970">1970</option>
-            <option value="1980">1980</option>
-            <option value="1990">1990</option>
-            <option value="2000">2000</option>
-            <option value="2010">2010</option>
-            <option value="2020">2020</option>
-          </select>
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart layout="vertical" width={800} height={500} data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" />
-              <YAxis dataKey="country" type="category" padding={{ left: 10, right: 10 }} />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="population" fill="#8884d8" />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="title">Population growth per country, 1950 to 2021</div>
+          <label className="select-label">Select Year:</label>
+          <Select className="select-box" value={year} onChange={handleYearChange}>
+            {yearOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+          <div className="chart-container">
+            <Bar data={chartData} options={options} />
+          </div>
         </>
       )}
     </div>
