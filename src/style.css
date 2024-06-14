@@ -1,0 +1,33 @@
+.container {
+    margin: 40px 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: 25px;
+    font-weight:bold;
+  }
+
+  .select-label {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  
+  .select-box {
+    width: 200px;
+    height: 40px;
+  }
+  
+  .chart-container {
+    height: 80%;
+  }
+  
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
