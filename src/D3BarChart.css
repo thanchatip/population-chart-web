@@ -1,0 +1,36 @@
+.d3-chart {
+    margin: 20px;
+  }
+  
+  .bar-label {
+    font-size: 12px;
+    fill: #000;
+  }
+
+  svg {
+    overflow: hidden; /* Ensure SVG content does not overflow */
+  }
+
+  .gridlines .gridline-x {
+    stroke: #ddd; /* Color of vertical gridlines */
+    stroke-dasharray: 3, 3; /* Dashed line pattern */
+  }
+  
+
+
+  
+  .bar-label {
+    font-family: Arial, sans-serif; /* Font for bar labels */
+    font-size: 12px; /* Font size for bar labels */
+  }
+  
+  .chart-container {
+    width: 100%; /* Ensure the chart container takes full width */
+    overflow: auto; /* Allow scrolling if the chart overflows */
+  }
+  
+  .chart-container svg {
+    display: block; /* Ensure the SVG is block-level */
+    margin: 0 auto; /* Center the SVG horizontally */
+  }
+  

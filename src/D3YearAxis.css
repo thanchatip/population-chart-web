@@ -1,0 +1,23 @@
+.d3-year-axis {
+    margin: 20px;
+  }
+  
+  .axis text {
+    font-size: 12px;
+  }
+  
+  .brush .overlay {
+    fill: none;
+    pointer-events: all;
+  }
+  
+  .brush .selection {
+    fill: steelblue;
+    fill-opacity: 0.3;
+  }
+  
+  .brush .handle {
+    fill: #666;
+    fill-opacity: 0.8;
+  }
+  

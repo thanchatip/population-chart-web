@@ -1,0 +1,25 @@
+.continent-legend {
+    display: flex; /* Use flexbox to display items in a row */
+    margin-top: 20px; /* Add some margin for spacing */
+  }
+
+  .region-label {
+    margin-right: 5px;
+  }
+  
+  .continent-legend-item {
+    display: flex; /* Display items in a row */
+    align-items: center; /* Align items vertically */
+    margin-right: 20px; /* Add spacing between legend items */
+  }
+  
+  .legend-color {
+    width: 20px; /* Width of the color block */
+    height: 10px; /* Height of the color block */
+    margin-right: 10px; /* Margin between color block and text */
+  }
+  
+  .legend-text {
+    font-size: 14px; /* Font size for legend text */
+  }
+  

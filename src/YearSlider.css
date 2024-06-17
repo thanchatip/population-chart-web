@@ -1,0 +1,38 @@
+/* style.css */
+
+.slider {
+    font: 10px sans-serif;
+  }
+  
+  .slider .track {
+    stroke: #bbb; /* Color of the main track */
+    stroke-width: 8; /* Thickness of the main track */
+  }
+  
+  .slider .track-inset {
+    stroke: #ddd; /* Color of the inset track */
+    stroke-width: 6; /* Thickness of the inset track */
+  }
+  
+  .slider .track-overlay {
+    stroke-width: 50; /* Thickness of the interactive overlay track */
+    stroke: transparent; /* Transparent color for overlay */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+  
+  .slider .handle {
+    fill: #333; /* Handle fill color */
+    stroke: #000; /* Handle stroke color */
+    stroke-opacity: 0.5; /* Handle stroke opacity */
+    stroke-width: 1; /* Handle stroke width */
+  }
+  
+  .slider .ticks text {
+    fill: #777; /* Color of tick labels */
+  }
+  
+  .slider .ticks line {
+    stroke: #ccc; /* Color of tick lines */
+    stroke-width: 1; /* Thickness of tick lines */
+  }
+  
